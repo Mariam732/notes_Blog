@@ -1,0 +1,117 @@
+
+<%- include('header.ejs') %>
+
+
+
+<div class="container my-5">
+    <div class="col-md-12 m-auto text-right">
+        <a class="add p-2 btn" data-toggle="modal" data-target="#addNote"><i class="fas fa-plus-circle"></i> Add
+    New</a>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="addNote" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <form action="/addNote" method="POST">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+                </div>
+                <div class="modal-body">
+                    <input placeholder="Type Title" name="title" class="form-control" type="text">
+                    <textarea class="form-control my-2" placeholder="Type your note" name="desc" id="" cols="30" rows="10"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-info"><i class="fas fa-plus-circle"></i> Add Note</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+<!-- ==========================Notes=============================== -->
+
+
+
+<!-- Modal -->
+<!-- delete modal -->
+<div class="modal fade" id="delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form action="/delete" method="post">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <input hidden type="text" name="delete" id="deleteNote" class="form-control">
+                       Are you sure to delete this note?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Undo</button>
+            <button type="submit" class="btn btn-danger">Delete</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    
+</div>
+
+<!-- Modal -->
+<!-- edit modal -->
+<div class="modal fade" id="editNote" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <form action="/editNote" method="POST">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="_id" name="_id" hidden>
+                    <input id="titleInput" placeholder="Type Title" name="title" class="form-control" type="text">
+                    <textarea id="descInput" class="form-control my-2" placeholder="Type your note" name="desc" id="" cols="30" rows="10"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success"><i class="fas fa-plus-circle"></i> Edit Note</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<div class="container">
+    <div class="row">
+       <% for( let index = 0; index < notes.length; index++ ) { %>
+        <div class="col-md-4 my-4">
+
+            <div class="note p-4">
+                <h3 id="title<%= notes[index]._id%>" class="float-left"><%= notes[index].title %> </h3>
+                <a href="#" onclick="edit('<%= notes[index]._id%>')" data-toggle="modal" data-target="#editNote"><i class="fas fa-edit float-right edit"></i></a>
+                <a  data-toggle="modal" data-target="#delete" 
+                onclick="getID('<%= notes[index]._id%>')"> <i class="fas fa-trash-alt float-right px-3 del"></i></a>
+                <span class="clearfix"></span>
+                <p id="desc<%= notes[index]._id%>"> <%= notes[index].desc %> </p>
+            </div>
+        </div>
+       <% } %>
+
+    </div>
+</div>
+
+  
+
+
+<%- include('footer.ejs') %>
